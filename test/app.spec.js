@@ -28,7 +28,12 @@ describe("Dictionary App", function () {
         });
 
         it("GETS dictionary-api", function(done) {
-            request(app).get('/dictionary-api').expect(200).end(done);
+            const _this = this;
+            request(app).get('/dictionary-api').expect(200).end(function(err, res) {
+                const terms = JSON.parse(res.text);
+                expect(terms).to.deep.equal(_this.defs);
+                done();
+            });
         });
 
         it("POSTS dictionary-api", function(done) {
