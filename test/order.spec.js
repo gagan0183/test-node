@@ -30,6 +30,11 @@ describe('order', function() {
         });
     });
 
+    it('item not there', function() {
+        order.orderItem('PP', 9);
+        chai.expect(this.console.log.calledWith('Item - PP not found')).to.equal(true);
+    });
+
     describe('warehouse', function() {
         beforeEach(function() {
             this.callback = sinon.spy();
