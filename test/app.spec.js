@@ -2,11 +2,17 @@ var expect = require('chai').expect;
 var rewire = require('rewire');
 var app = rewire('../src/app');
 var request = require('supertest');
+var cheerio = require('cheerio');
 
 describe("Dictionary App", function () {
 
     it("Loads the home page", function(done) {
-        request(app).get('/').expect(200).end(done);
+        request(app).get('/').expect(200).end(function(err, res) {
+            var $ = cheerio.load(res.text);
+            var pageHeading = $('body>h1:first-child').text();
+            expect(pageHeading).to.equal('Skier Dictionary');
+            done();
+        });
     });
 
     describe("Dictionary API", function () {
